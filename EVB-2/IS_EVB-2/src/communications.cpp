@@ -650,11 +650,14 @@ void com_bridge_smart_forward(uint32_t srcPort, uint32_t ledPin)
 	{
 		if (g_uInsBootloaderEnableTimeMs)
 		{	// When uINS bootloader is enabled forwarding is disabled below is_comm_parse(), so forward bootloader data here.
-			switch (srcPort)
-			{
-				case EVB2_PORT_USB:		comWrite(EVB2_PORT_UINS0, comm.buf.tail, n, LED_INS_TXD_PIN);	break;
-				case EVB2_PORT_UINS0:	comWrite(EVB2_PORT_USB, comm.buf.tail, n, 0);					break;
-			}					
+			if (srcPort == EVB2_PORT_USB)
+			{	// USB -> uinsComPort
+				comWrite(g_flashCfg->uinsComPort, comm.buf.tail, n, LED_INS_TXD_PIN);
+			}
+			else if (srcPort == g_flashCfg->uinsComPort)
+			{	// uinsComPort -> USB
+				comWrite(EVB2_PORT_USB, comm.buf.tail, n, 0);
+			}
 		}
 		
 		// Update comm buffer tail pointer
