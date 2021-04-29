@@ -1581,7 +1581,8 @@ void cInertialSenseDisplay::GetKeyboardInput()
 	else switch (c)
 	{
 	case 8:		// Backspace
-		m_editData.field.pop_back();
+	case 127:
+		if (m_editData.field.size()>0){	m_editData.field.pop_back(); }
 		break;
 	case 10:
 	case 13:	// Enter	// Convert string to number
@@ -1619,15 +1620,15 @@ void cInertialSenseDisplay::SelectEditDataset(int did)
 
 	// Set m_editData.mapInfoBegin to end or DATASET_VIEW_NUM_ROWSth element, whichever is smaller.
 	int i=0;
-	for (map_name_to_info_t::const_iterator it = m_editData.mapInfo->begin(); it != m_editData.mapInfo->end(); it++)
+	map_name_to_info_t::const_iterator it;
+	for (it = m_editData.mapInfo->begin(); it != m_editData.mapInfo->end(); it++)
 	{
 		if (i++>DATASET_VIEW_NUM_ROWS)
 		{
 			break;
 		}
-
-		m_editData.mapInfoEnd = it;
 	}
+	m_editData.mapInfoEnd = it;
 
 	SetDisplayMode(cInertialSenseDisplay::DMODE_EDIT);
 }
@@ -1645,7 +1646,7 @@ void cInertialSenseDisplay::VarSelectIncrement()
 	{
 		m_editData.mapInfoSelection++;
 	}
-	else if (m_editData.mapInfoEnd != --(m_editData.mapInfo->end()))
+	else if (m_editData.mapInfoEnd != m_editData.mapInfo->end())
 	{
 		m_editData.mapInfoBegin++;
 		m_editData.mapInfoEnd++;

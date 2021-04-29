@@ -100,7 +100,7 @@ static void output_client_bytes(InertialSense* i)
 // [C++ COMM INSTRUCTION] STEP 5: Handle received data 
 static void cltool_dataCallback(InertialSense* i, p_data_t* data, int pHandle)
 {
-	// return;
+	// return;		// uncomment to disable display updates
 
     (void)i;
     (void)pHandle;
