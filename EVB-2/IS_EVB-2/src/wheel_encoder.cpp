@@ -104,6 +104,12 @@ void step_wheel_encoder(is_comm_instance_t &comm)
             if (g_ermc.bits & ERMC_BITS_WHEEL_ENCODER)
 		{
 #endif
+		
+
+#if 0
+		n = is_comm_data(&comm, DID_EVB_DEBUG_ARRAY, 0, sizeof(debug_array_t), (void*)&(g_debug));
+		comWrite(EVB2_PORT_USB, comm.buf.start, n, 0);
+#endif
 
 		// Update history
 		wheelEncoderLast = g_wheelEncoder;
