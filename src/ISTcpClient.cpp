@@ -104,7 +104,7 @@ int ISSocketWrite(socket_t socket, const uint8_t* data, int dataLength)
         {
             break;
         }
-        writeCount = send(socket, (const char*)data, dataLength, 0);
+        writeCount = send(socket, (const char*)data, dataLength, MSG_NOSIGNAL);
         if (writeCount < 0)
         {
             break;
@@ -324,4 +324,9 @@ int cISTcpClient::SetBlocking(bool blocking)
 {
 	m_blocking = blocking;
 	return ISSocketSetBlocking(m_socket, blocking);
+}
+
+std::string cISTcpClient::ConnectionInfo()
+{
+	return m_host + ":" + to_string(m_port);
 }
